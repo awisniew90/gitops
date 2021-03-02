@@ -21,14 +21,14 @@ spec:
         app.kubernetes.io/name: application-stack-intro
         app.kubernetes.io/part-of: app-application-stack-intro
     spec:
-      containers:
-      - image: image-registry.openshift-image-registry.svc:5000/cicd/application-stack-intro
-        imagePullPolicy: Always
-        name: application-stack-intro
-        ports:
-        - containerPort: 9080
-        resources: {}
-      serviceAccountName: default
+      version: 1.0.0
+      applicationImage: image-registry.openshift-image-registry.svc:5000/cicd/application-stack-intro
+      imagePullPolicy: Always
+      service:
+        type: ClusterIP
+        port: 9080
+        annotations:
+          prometheus.io/scrape: 'true'
       readinessProbe:
         failureThreshold: 12
         httpGet:
