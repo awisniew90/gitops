@@ -22,11 +22,27 @@ spec:
         app.kubernetes.io/part-of: app-application-stack-intro
     spec:
       containers:
-      - image: nginxinc/nginx-unprivileged:latest
+      - image: image-registry.openshift-image-registry.svc:5000/cicd/application-stack-intro
         imagePullPolicy: Always
         name: application-stack-intro
         ports:
-        - containerPort: 8080
+        - containerPort: 9080
         resources: {}
+        readinessProbe:
+          failureThreshold: 12
+          httpGet:
+            path: /health/ready
+            port: 9080
+          initialDelaySeconds: 5
+          periodSeconds: 2
+          timeoutSeconds: 1
+        livenessProbe:
+          failureThreshold: 12
+          httpGet:
+            path: /health/live
+            port: 9080
+          initialDelaySeconds: 5
+          periodSeconds: 2
+        expose: true
       serviceAccountName: default
 status: {}

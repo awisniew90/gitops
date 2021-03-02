@@ -8,11 +8,10 @@ metadata:
   name: application-stack-intro
   namespace: dev
 spec:
-  ports:
-  - name: http
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+  type: ClusterIP
+    port: 9080
+    annotations:
+      prometheus.io/scrape: 'true'
   selector:
     app.kubernetes.io/name: application-stack-intro
     app.kubernetes.io/part-of: app-application-stack-intro
