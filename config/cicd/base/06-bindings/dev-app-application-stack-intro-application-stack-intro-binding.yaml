@@ -1,0 +1,13 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  creationTimestamp: null
+  name: dev-app-application-stack-intro-application-stack-intro-binding
+  namespace: cicd
+spec:
+  params:
+  - name: imageRepo
+    value: image-registry.openshift-image-registry.svc:5000/cicd/application-stack-intro
+  - name: tlsVerify
+    value: "false"
+status: {}
