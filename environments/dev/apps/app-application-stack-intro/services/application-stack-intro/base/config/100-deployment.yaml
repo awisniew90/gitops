@@ -14,34 +14,27 @@ spec:
       app.kubernetes.io/name: application-stack-intro
       app.kubernetes.io/part-of: app-application-stack-intro
   strategy: {}
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app.kubernetes.io/name: application-stack-intro
-        app.kubernetes.io/part-of: app-application-stack-intro
-    spec:
-      version: 1.0.0
-      applicationImage: cicd/application-stack-intro:latest
-      imagePullPolicy: Always
-      service:
-        type: ClusterIP
+  version: 1.0.0
+  applicationImage: image-registry.openshift-image-registry.svc:5000/cicd/application-stack-intro:latest
+  imagePullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 9080
+    annotations:
+      prometheus.io/scrape: 'true'
+    readinessProbe:
+      failureThreshold: 12
+      httpGet:
+        path: /health/ready
         port: 9080
-        annotations:
-          prometheus.io/scrape: 'true'
-      readinessProbe:
-        failureThreshold: 12
-        httpGet:
-          path: /health/ready
-          port: 9080
-        initialDelaySeconds: 5
-        periodSeconds: 2
-        timeoutSeconds: 1
-      livenessProbe:
-        failureThreshold: 12
-        httpGet:
-          path: /health/live
-          port: 9080
-        initialDelaySeconds: 5
-        periodSeconds: 2
+      initialDelaySeconds: 5
+      periodSeconds: 2
+      timeoutSeconds: 1
+    livenessProbe:
+      failureThreshold: 12
+      httpGet:
+        path: /health/live
+        port: 9080
+      initialDelaySeconds: 5
+      periodSeconds: 2
 status: {}
